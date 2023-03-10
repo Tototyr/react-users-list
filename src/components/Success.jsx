@@ -1,14 +1,16 @@
 import React from 'react';
 
-export const Success = ({ count }) => {
+export function Success({ count }) {
     return (
-        <div class="success-block">
-            <img src="/assets/success.svg" alt="Success" />
-            <h3>Успешно!</h3>
-            <p>Всем {count} пользователям отправлено приглашение.</p>
+        <div className="success-block">
+            <img src="/assets/success.svg" alt="Success" className="success-img" />
+            <h3 className="success-title">Успешно!</h3>
+            <p className="success-description">
+                Всем {count} пользователям отправлено приглашение.
+            </p>
             <button onClick={() => window.location.reload()} className="send-invite-btn">
                 Назад
             </button>
         </div>
     );
-};
+}
