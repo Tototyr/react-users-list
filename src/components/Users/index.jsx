@@ -1,11 +1,9 @@
-/* eslint-disable consistent-return */
-/* eslint-disable react/button-has-type */
 import React from 'react';
 import { Skeleton } from './Skeleton';
 import { User } from './User';
+import { fullName } from '../../lib/getUserFullName';
 
 export function Users({
-    id,
     items,
     isLoading,
     searchValue,
@@ -14,11 +12,38 @@ export function Users({
     onClickInvite,
     onClickSendInvites,
     count,
-    notFound,
-    onChangeNotFound,
-    setNotFound,
+    error,
 }) {
-    // console.log(.length);
+    const filteredUsers = items.filter((users) => {
+        return fullName(users).includes(searchValue.toLowerCase());
+    });
+
+    const userList = filteredUsers.map((users) => (
+        <User
+            key={users.id}
+            {...users}
+            isInvited={invites.includes(users.id)}
+            onClickInvite={onClickInvite}
+        />
+    ));
+
+    let content = null;
+    if (isLoading) {
+        content = (
+            <div className="skeleton-list">
+                <Skeleton />
+                <Skeleton />
+                <Skeleton />
+            </div>
+        );
+    } else if (error) {
+        content = <div className="error-message">Произошла ошибка: {error}</div>;
+    } else if (userList.length === 0) {
+        content = <div className="user-list--not_found">Ничего не найдено</div>;
+    } else {
+        content = <ul className="user-list">{userList}</ul>;
+    }
+
     return (
         <>
             <div className="search">
@@ -34,47 +59,7 @@ export function Users({
                 />
             </div>
 
-            {isLoading ? (
-                <div className="skeleton-list">
-                    <Skeleton />
-                    <Skeleton />
-                    <Skeleton />
-                </div>
-            ) : (
-                <ul className="user-list">
-                    {items
-                        .filter((obj) => {
-                            const fullName = (
-                                obj.first_name +
-                                obj.last_name +
-                                obj.email
-                            ).toLowerCase();
-
-                            if (!fullName.includes(searchValue)) {
-                                // return console.log('ff');
-                            }
-                            return fullName.toLowerCase().includes(searchValue);
-
-                            // if (fullName.includes(searchValue) || obj.email.includes(searchValue)) {
-                            //     return fullName || obj.email;
-                            // }
-                            // return console.log('wrong');
-
-                            // return (
-                            //     fullName.includes(searchValue) || obj.email.includes(searchValue)
-                            // );
-                        })
-
-                        .map((obj) => (
-                            <User
-                                isInvited={invites.includes(obj.id)}
-                                key={obj.id}
-                                {...obj}
-                                onClickInvite={onClickInvite}
-                            />
-                        ))}
-                </ul>
-            )}
+            {content}
 
             {invites.length > 0 && (
                 <button onClick={onClickSendInvites} className="send-invite-btn">

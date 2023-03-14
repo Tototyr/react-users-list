@@ -1,8 +1,4 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
-// import plus from '../../assets/plus.svg';
-// import minus from '../../assets/minus.svg';
 
 export function User({ id, email, first_name, last_name, avatar, onClickInvite, isInvited }) {
     return (
@@ -27,6 +23,7 @@ export function User({ id, email, first_name, last_name, avatar, onClickInvite, 
             </div>
             <img
                 onClick={() => onClickInvite(id)}
+                aria-hidden="true"
                 className="action"
                 src={`/assets/${isInvited ? 'minus' : 'plus'}.svg`}
                 alt="Action"

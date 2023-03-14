@@ -86,7 +86,6 @@ body {
       margin: 0;
       font-weight: 900;
       font-family: 'Merriweather', serif;
-      margin-left: 15px;
       margin-top: 5px;
       color: #182170;
     }
@@ -179,4 +178,14 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.user-list--not_found {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 900;
+  font-family: 'Merriweather', serif;
+  margin-top: 55%;
+  color: #182170;
+  
 }
